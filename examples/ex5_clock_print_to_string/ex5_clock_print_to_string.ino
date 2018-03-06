@@ -5,7 +5,7 @@
  *
  *  Project:   RTC_DS3231
  *  File:      ex5_clock_print_to_string.ino
- *  Date:      2014/10/15
+ *  Date:      2018/03/06
  */
 
 
@@ -38,6 +38,8 @@ void loop()
     //   y   =  Year of 00 to 99
     //   m   =  Month of 01 to 12
     //   n   =  Month of 1 to 12
+    //   w   =  DayWeek of 0 to 6 (0=Sunday)
+    //   W   =  DayWeek of 1 to 7 (7=Sunday)
     //   d   =  Day of 01 to 31
     //   j   =  Day of 1 to 31
     //   H   =  Hour of 00 to 23
