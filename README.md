@@ -4,6 +4,7 @@ RTC_DS3231 es una librería para Arduino que permite controlar tanto el Maxim DS
 Mas información aquí:
 
 https://giltesa.com/2012/09/02/libreria-gds1307-para-rtc
+
 https://giltesa.com/2014/10/15/actualizacion-1-4-de-la-libreria-rtc-para-reloj-dallas-ds1307-y-ds3231
 
 
