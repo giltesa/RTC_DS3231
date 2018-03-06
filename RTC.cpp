@@ -363,7 +363,7 @@ RTC::RTC( bool DST )
  */
 void RTC::setSeconds( uint8_t seconds )
 {
-    Data data = this->getData();
+    Data data    = this->getData();
     data.seconds = seconds;
     this->setDateTime(data);
 }
@@ -376,7 +376,7 @@ void RTC::setSeconds( uint8_t seconds )
  */
 void RTC::setMinutes( uint8_t minutes )
 {
-    Data data = this->getData();
+    Data data    = this->getData();
     data.minutes = minutes;
     this->setDateTime(data);
 }
@@ -389,7 +389,7 @@ void RTC::setMinutes( uint8_t minutes )
  */
 void RTC::setHour( uint8_t hour24h )
 {
-    Data data = this->getData();
+    Data data    = this->getData();
     data.hour24h = hour24h;
     this->setDateTime(data);
 }
@@ -404,7 +404,7 @@ void RTC::setHour( uint8_t hour24h )
  */
 void RTC::setTime( uint8_t hour24h, uint8_t minutes, uint8_t seconds )
 {
-    Data data = this->getData();
+    Data data    = this->getData();
     data.hour24h = hour24h;
     data.minutes = minutes;
     data.seconds = seconds;
@@ -419,8 +419,8 @@ void RTC::setTime( uint8_t hour24h, uint8_t minutes, uint8_t seconds )
  */
 void RTC::setDay( uint8_t day )
 {
-    Data data = this->getData();
-    data.day = day;
+    Data data    = this->getData();
+    data.day     = day;
     data.dayWeek = zeller( data.year, data.month, data.day );
     data.dayWeek = (data.dayWeek == 0 ? 7 : data.dayWeek);
     this->setDateTime(data);
@@ -434,7 +434,7 @@ void RTC::setDay( uint8_t day )
  */
 void RTC::setMonth( uint8_t  month )
 {
-    Data data = this->getData();
+    Data data  = this->getData();
     data.month = month;
     this->setDateTime(data);
 }
@@ -462,10 +462,10 @@ void RTC::setYear( uint16_t year )
  */
 void RTC::setDate( uint16_t year, uint8_t month, uint8_t day )
 {
-    Data data = this->getData();
-    data.year = year;
-    data.month = month;
-    data.day = day;
+    Data data    = this->getData();
+    data.year    = year;
+    data.month   = month;
+    data.day     = day;
     data.dayWeek = zeller( data.year, data.month, data.day );
     data.dayWeek = (data.dayWeek == 0 ? 7 : data.dayWeek);
     this->setDateTime(data);
@@ -484,10 +484,10 @@ void RTC::setDate( uint16_t year, uint8_t month, uint8_t day )
  */
 void RTC::setDateTime( uint16_t year, uint8_t month, uint8_t day, uint8_t hour24h, uint8_t minutes, uint8_t seconds )
 {
-    Data data = this->getData();
-    data.year = year;
-    data.month = month;
-    data.day = day;
+    Data data    = this->getData();
+    data.year    = year;
+    data.month   = month;
+    data.day     = day;
     data.dayWeek = zeller( data.year, data.month, data.day );
     data.dayWeek = (data.dayWeek == 0 ? 7 : data.dayWeek);
     data.hour24h = hour24h;
@@ -624,20 +624,20 @@ Data RTC::checkDST( Data data )
         {
             dayOnDST  = 31 - zeller( (data.month <= 3  ? data.year : data.year+1),  3, 31 );
             dayOffDST = 31 - zeller( (data.month <= 10 ? data.year : data.year+1), 10, 31 );
-            estDST       = ((data.month == 3 && data.day >= dayOnDST && data.hour24h > 2) || data.month==4 || data.month==5 || data.month==6 || data.month==7 || data.month==8 || data.month==9 || (data.month == 10 && data.day <= dayOffDST && data.hour24h < 3)) ? true : false;
+            estDST    = ((data.month == 3 && data.day >= dayOnDST && data.hour24h > 2) || data.month==4 || data.month==5 || data.month==6 || data.month==7 || data.month==8 || data.month==9 || (data.month == 10 && data.day <= dayOffDST && data.hour24h < 3)) ? true : false;
         }
 
         if( !estDST  &&  data.month == 3  &&  data.day == dayOnDST  &&  data.hour24h == 2 )
         {
             data.hour24h++;
-            estDST = true;
-            dayOnDST  = 31 - zeller( data.year+1, 3, 31 );
+            estDST   = true;
+            dayOnDST = 31 - zeller( data.year+1, 3, 31 );
             this->setDateTime(data);
         }
         else if( estDST  &&  data.month == 10  &&  data.day == dayOffDST  &&  data.hour24h == 3 )
         {
             data.hour24h--;
-            estDST = false;
+            estDST    = false;
             dayOffDST = 31 - zeller( data.year+1, 10, 31 );
             this->setDateTime(data);
         }
