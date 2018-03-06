@@ -5,8 +5,8 @@
  *
  *  Project:   RTC_DS3231
  *  File:      RTC.h
- *  Date:      2016/03/24
- *  Version:   1.4.7
+ *  Date:      2018/03/06
+ *  Version:   1.4.8
  */
 
 
@@ -35,7 +35,7 @@ class Data
     uint8_t  minutes;   //     0~59
     uint8_t  hour;      //     0~11
     uint8_t  hour24h;   //     0~23
-    uint8_t  dayWeek;   //     1~7
+    uint8_t  dayWeek;   //     0~6  (0=Sunday)
     uint8_t  day;       //     1~31
     uint8_t  month;     //     1~12
     uint16_t year;      //  2000~2099

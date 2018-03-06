@@ -5,8 +5,8 @@
  *
  *  Project:   RTC_DS3231
  *  File:      RTC.cpp
- *  Date:      2016/03/24
- *  Version:   1.4.7
+ *  Date:      2018/03/06
+ *  Version:   1.4.8
  */
 
 
@@ -74,6 +74,8 @@ String Data::toString()
  *   y   = Year    of   00 to 99
  *   m   = Month   of   01 to 12
  *   n   = Month   of    1 to 12
+ *   w   = DayWeek of    0 to  6 (0=Sunday)
+ *   W   = DayWeek of    1 to  7 (7=Sunday)
  *   d   = Day     of   01 to 31
  *   j   = Day     of    1 to 31
  *   H   = Hour    of   00 to 23
@@ -118,6 +120,16 @@ String Data::toString(char* format)
             // Month of 1 to 12
             case 'n':
                 s.concat(month);
+                break;
+
+            // DayWeek of 0 to 6
+            case 'w':
+                s.concat(dayWeek);
+                break;
+
+            // DayWeek of 1 to 7
+            case 'W':
+                s.concat(dayWeek == 0 ? 7 : dayWeek);
                 break;
 
             // Day of 01 to 31
@@ -419,10 +431,8 @@ void RTC::setTime( uint8_t hour24h, uint8_t minutes, uint8_t seconds )
  */
 void RTC::setDay( uint8_t day )
 {
-    Data data    = this->getData();
-    data.day     = day;
-    data.dayWeek = zeller( data.year, data.month, data.day );
-    data.dayWeek = (data.dayWeek == 0 ? 7 : data.dayWeek);
+    Data data = this->getData();
+    data.day  = day;
     this->setDateTime(data);
 }
 
@@ -462,12 +472,10 @@ void RTC::setYear( uint16_t year )
  */
 void RTC::setDate( uint16_t year, uint8_t month, uint8_t day )
 {
-    Data data    = this->getData();
-    data.year    = year;
-    data.month   = month;
-    data.day     = day;
-    data.dayWeek = zeller( data.year, data.month, data.day );
-    data.dayWeek = (data.dayWeek == 0 ? 7 : data.dayWeek);
+    Data data  = this->getData();
+    data.year  = year;
+    data.month = month;
+    data.day   = day;
     this->setDateTime(data);
 }
 
@@ -489,7 +497,6 @@ void RTC::setDateTime( uint16_t year, uint8_t month, uint8_t day, uint8_t hour24
     data.month   = month;
     data.day     = day;
     data.dayWeek = zeller( data.year, data.month, data.day );
-    data.dayWeek = (data.dayWeek == 0 ? 7 : data.dayWeek);
     data.hour24h = hour24h;
     data.minutes = minutes;
     data.seconds = seconds;
@@ -584,7 +591,7 @@ void RTC::setDateTime( Data d )
         Wire.write(decToBcd( (d.seconds >= 0 && d.seconds <= 59) ? d.seconds : old.seconds ));
         Wire.write(decToBcd( (d.minutes >= 0 && d.minutes <= 59) ? d.minutes : old.minutes ));
         Wire.write(decToBcd( (d.hour24h >= 0 && d.hour24h <= 23) ? d.hour24h : old.hour24h ));
-        Wire.write(decToBcd( (d.dayWeek >= 1 && d.dayWeek <= 7 ) ? d.dayWeek : old.dayWeek ));
+        Wire.write(decToBcd( (d.dayWeek >= 0 && d.dayWeek <= 6 ) ? d.dayWeek : old.dayWeek ));
         Wire.write(decToBcd( (d.day     >= 1 && d.day     <= 31) ? d.day     : old.day     ));
         Wire.write(decToBcd( (d.month   >= 1 && d.month   <= 12) ? d.month   : old.month   ));
 
@@ -599,7 +606,7 @@ void RTC::setDateTime( Data d )
         Wire.send(decToBcd( (d.seconds >= 0 && d.seconds <= 59) ? d.seconds : old.seconds ));
         Wire.send(decToBcd( (d.minutes >= 0 && d.minutes <= 59) ? d.minutes : old.minutes ));
         Wire.send(decToBcd( (d.hour24h >= 0 && d.hour24h <= 23) ? d.hour24h : old.hour24h ));
-        Wire.send(decToBcd( (d.dayWeek >= 1 && d.dayWeek <= 7 ) ? d.dayWeek : old.dayWeek ));
+        Wire.send(decToBcd( (d.dayWeek >= 0 && d.dayWeek <= 6 ) ? d.dayWeek : old.dayWeek ));
         Wire.send(decToBcd( (d.day     >= 1 && d.day     <= 31) ? d.day     : old.day     ));
         Wire.send(decToBcd( (d.month   >= 1 && d.month   <= 12) ? d.month   : old.month   ));
 

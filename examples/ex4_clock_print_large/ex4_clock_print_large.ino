@@ -5,7 +5,7 @@
  *
  *  Project:   RTC_DS3231
  *  File:      ex4_clock_print_large.ino
- *  Date:      2014/10/15
+ *  Date:      2018/03/06
  */
 
 
@@ -54,7 +54,7 @@ void loop()
         case 4:  Serial.print("Thursday");  break;
         case 5:  Serial.print("Friday");    break;
         case 6:  Serial.print("Saturday");  break;
-        case 7:  Serial.print("Sunday");    break;
+        case 0:  Serial.print("Sunday");    break;
     }
 
     Serial.print(" of ");
